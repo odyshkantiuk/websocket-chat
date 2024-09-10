@@ -135,7 +135,10 @@
             $('#joinForm').hide();
             $('#chat').show();
             $('#roomTitle').text("Room: " + room);
-            socket = new WebSocket("ws://localhost:8080/chat/" + room);
+            let wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            let wsHost = window.location.host;
+            let wsUrl = wsProtocol + '//' + wsHost + '/chat/' + room;
+            socket = new WebSocket(wsUrl);
             socket.onmessage = function(event) {
                 $('#messages').append($('<li>').text(event.data));
                 $('#messages').scrollTop($('#messages')[0].scrollHeight);
